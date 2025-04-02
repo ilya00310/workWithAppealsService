@@ -8,11 +8,13 @@ datasource db {
 }
 
 model Appeal {
-  id            String    @id   @default(uuid())
-  title         String    
-  message       String  
-  processingWork ProcessingWorkProcess @default(new)
-  createdAt     DateTime @default(now()) @map("created_at")
+  id                    String    @id   @default(uuid())
+  title                 String    
+  message               String
+  reasonForCancellation String          @default("")
+  problemSolving        String          @default("")  
+  processingWork ProcessingWorkProcess  @default(new)
+  createdAt             DateTime        @default(now()) @map("created_at")
 }
 
 enum ProcessingWorkProcess {
