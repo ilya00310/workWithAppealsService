@@ -5,4 +5,4 @@ title: z.string(),
 message: z.string(),
 })
 
-export type CreateAppealDto = z.infer<typeof createAppealDto>
+export type CreateAppeal = z.infer<typeof createAppealDto>

@@ -11,8 +11,7 @@ model Appeal {
   id                    String    @id   @default(uuid())
   title                 String    
   message               String
-  reasonForCancellation String          @default("")
-  problemSolving        String          @default("")  
+  lastFeedbackMessage   String?                 
   processingWork ProcessingWorkProcess  @default(new)
   createdAt             DateTime        @default(now()) @map("created_at")
 }
@@ -21,5 +20,5 @@ enum ProcessingWorkProcess {
   new
   atWork
   completed
-  cancelled 
+  canceled 
 }
