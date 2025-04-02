@@ -9,7 +9,8 @@ datasource db {
 
 model Appeal {
   id            String    @id   @default(uuid())
-  message       String
+  title         String    
+  message       String  
   processingWork ProcessingWorkProcess @default(new)
   createdAt     DateTime @default(now()) @map("created_at")
 }
