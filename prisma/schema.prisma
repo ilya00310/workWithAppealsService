@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Appeal {
+  id            String    @id   @default(uuid())
+  message       String
+  processingWork ProcessingWorkProcess @default(new)
+  createdAt     DateTime @default(now()) @map("created_at")
+}
+
+enum ProcessingWorkProcess {
+  new
+  atWork
+  completed
+  cancelled 
+}
