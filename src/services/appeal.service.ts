@@ -2,6 +2,7 @@ import { Appeal } from "../schemas/appeal.type";
 import { CreateAppeal } from "../schemas/createAppeal.dto.type";
 import { PrismaClient, ProcessingWorkProcess } from '@prisma/client'
 import createError from 'http-errors'
+import { ConditionCurrentFilter, FilterDateAppeal } from "../schemas/filterAppealDate.dto";
 
 const prisma = new PrismaClient()
 
@@ -71,4 +72,28 @@ export const cancellationAppealsAtWork= async(feedbackMessage: string) => {
             feedbackMessage
         }
     })
+}
+
+const getConditionCurrentFilter = (dataFilter: FilterDateAppeal): ConditionCurrentFilter => {
+    const { date, startDate, endDate } = dataFilter;
+    if (date) {
+        const currentDay = new Date(date)
+        const nextDay   = new Date(currentDay)
+        nextDay.setDate(currentDay.getDate() + 1);
+        return {gte: currentDay, lt: nextDay}
+    }
+    const filter: ConditionCurrentFilter = {}
+    if(startDate) filter.gte = new Date(startDate)
+    if(endDate) filter.lte = new Date(endDate)
+    return filter
+}
+
+export const  getFilterDateAppeals = async (dataFilter: FilterDateAppeal): Promise<Appeal[]> => {
+const conditionCurrentFilter = getConditionCurrentFilter(dataFilter);
+const appeals =  await prisma.appeal.findMany({
+    where: {
+        createdAt: conditionCurrentFilter
+    }
+});
+return appeals
 }
