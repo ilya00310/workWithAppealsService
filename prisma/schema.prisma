@@ -11,7 +11,7 @@ model Appeal {
   id                    String    @id   @default(uuid())
   title                 String    
   message               String
-  feedbackMessage       String?                 
+  feedbackMessage       String                
   processingWork ProcessingWorkProcess  @default(new)
   createdAt             DateTime        @default(now()) @map("created_at")
 }

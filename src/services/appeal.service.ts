@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 
 export enum ConditionUpdateProcess {
     start,
-    canceled, 
+    cancellation, 
     completion
 }
 
@@ -59,4 +59,16 @@ export const updateWorkAppeal = async (id: string, condition: ConditionUpdatePro
         throw createError(409, 'The problem has already been solved')
     }
     return await updateDbForChangeProcess(id, condition, feedbackMessage)
+}
+
+export const cancellationAppealsAtWork= async(feedbackMessage: string) => {
+    await prisma.appeal.updateMany({
+        where: {
+            processingWork: ProcessingWorkProcess.atWork
+        },
+        data: {
+            processingWork: ProcessingWorkProcess.canceled,
+            feedbackMessage
+        }
+    })
 }
