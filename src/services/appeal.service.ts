@@ -2,7 +2,6 @@ import { Appeal } from "../schemas/appeal.type";
 import { CreateAppeal } from "../schemas/createAppeal.dto.type";
 import { PrismaClient, ProcessingWorkProcess } from '@prisma/client'
 import createError from 'http-errors'
-import { UpdateAppeal } from "../schemas/updateAppeal.type";
 
 const prisma = new PrismaClient()
 
@@ -31,8 +30,18 @@ if (!currentAppeal) throw createError(404, 'Appeal with current id don\'t found'
     return currentAppeal.processingWork
 }
 
+const getTypeCurrentProcess = (condition: ConditionUpdateProcess): ProcessingWorkProcess => {
+    if (condition === ConditionUpdateProcess.start){
+        return ProcessingWorkProcess.atWork
+    } 
+    if (condition === ConditionUpdateProcess.completion){
+        return ProcessingWorkProcess.completed
+    }
+        return ProcessingWorkProcess.canceled
+}
+
 const updateDbForChangeProcess = async (id:string,condition: ConditionUpdateProcess, message?:string): Promise<Appeal> => {
-    const typeCurrentProcess =  condition === ConditionUpdateProcess.start  ? ProcessingWorkProcess.atWork : ProcessingWorkProcess.canceled
+    const typeCurrentProcess =  getTypeCurrentProcess(condition)
     const updateAppeal = await prisma.appeal.update({
         where: { id },
         data: {
@@ -46,7 +55,7 @@ const updateDbForChangeProcess = async (id:string,condition: ConditionUpdateProc
 
 export const updateWorkAppeal = async (id: string, condition: ConditionUpdateProcess, feedbackMessage?: string): Promise<Appeal> => {
     const currentProcess: ProcessingWorkProcess = await getCurrentProcess(id)
-    if (currentProcess === ProcessingWorkProcess.completed) {
+    if (currentProcess === ProcessingWorkProcess.completed && condition !== ConditionUpdateProcess.completion) {
         throw createError(409, 'The problem has already been solved')
     }
     return await updateDbForChangeProcess(id, condition, feedbackMessage)

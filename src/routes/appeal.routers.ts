@@ -37,3 +37,15 @@ router.route(`/appeals/:id/canceled`).patch(asyncHandler(async(req: Request,res:
     res.status(200).json(updateAppeal)
 })
 )
+
+router.route('/appeals/:id/completed').patch(asyncHandler(async(req:Request, res:Response) => {
+    const id: string = req.params.id;
+    const condition: ConditionUpdateProcess = ConditionUpdateProcess.completion;
+    const result = updateAppealDto.safeParse(req.body);
+    if(!result.success) {
+        res.status(400).json({error: result.error.errors})
+        return
+    }
+    const updateAppeal: Appeal = await updateWorkAppeal(id, condition,result.data.feedbackMessage);
+    res.status(200).json(updateAppeal)
+}))
