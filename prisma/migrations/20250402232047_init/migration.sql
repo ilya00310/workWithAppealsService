@@ -6,7 +6,7 @@ CREATE TABLE "Appeal" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "message" TEXT NOT NULL,
-    "lastFeedbackMessage" TEXT,
+    "feedbackMessage" TEXT,
     "processingWork" "ProcessingWorkProcess" NOT NULL DEFAULT 'new',
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

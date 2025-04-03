@@ -4,7 +4,7 @@ export type Appeal = {
 id : string, 
 title: string,
 message: string,
-lastFeedbackMessage: string | null,
+feedbackMessage: string | null,
 processingWork: ProcessingWorkProcess,
 createdAt: Date
 }
