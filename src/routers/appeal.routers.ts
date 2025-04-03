@@ -42,7 +42,7 @@ import { filterDateAppealDto } from '../schemas/filterAppealDate.dto';
  *              message: Can't register
  *              feedbackMessage: null
  *              processingWork: new
- *              createdAt: 2022-04-03 11:10:54.096
+ *              createdAt: 2025-04-03T17:03:25.297Z
  */
 
 export const router = express.Router()
@@ -115,7 +115,7 @@ router.route('/appeals').post(asyncHandler(async(req: Request,res: Response) => 
  *               message: "Can't register"
  *               feedbackMessage: null
  *               processingWork: "atWork"
- *               createdAt: "2022-04-03 11:10:54.096"
+ *               createdAt: "2025-04-03T17:03:25.297Z"
 */
 router.route(`/appeals/:id/start`).patch(asyncHandler(async(req: Request,res: Response) => {
     const { id }= req.params;
@@ -218,7 +218,7 @@ router.route(`/appeals/:id/cancellation`).patch(asyncHandler(async(req: Request,
  *               message: "Don't work"
  *               feedbackMessage: "Dark theme work is correct"
  *               processingWork: "completed"
- *               createdAt: "2022-04-03 11:10:54.096"
+ *               createdAt: "2025-04-03T17:03:25.297Z"
 */
 router.route('/appeals/:id/completion').patch(asyncHandler(async(req:Request, res:Response) => {
     const id: string = req.params.id;

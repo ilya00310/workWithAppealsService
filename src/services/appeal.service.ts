@@ -59,6 +59,9 @@ export const updateWorkAppeal = async (id: string, condition: ConditionUpdatePro
     if (currentProcess === ProcessingWorkProcess.completed && condition !== ConditionUpdateProcess.completion) {
         throw createError(409, 'The problem has already been solved')
     }
+    if(currentProcess === ProcessingWorkProcess.canceled && condition === ConditionUpdateProcess.completion){
+        throw createError(409, 'The appeal is not in working')
+    }
     return await updateDbForChangeProcess(id, condition, feedbackMessage)
 }
 
